@@ -95,94 +95,115 @@ function Productos() {
     );
 
     return (
-        <div className="container-fluid px-4 py-4" style={{ backgroundColor: '#f8faf9', minHeight: '100vh' }}>
+        <div className="container-fluid px-4 py-4" style={{ backgroundColor: '#0f172a', minHeight: '100vh', color: '#f1f5f9', fontFamily: "'Inter', sans-serif" }}>
+
             {mensaje && (
-                <div className="alert alert-success alert-dismissible fade show rounded-3 shadow-sm" role="alert">
-                    ✅ {mensaje}
-                    <button type="button" className="btn-close" onClick={() => setMensaje('')}></button>
+                <div className="alert border-0 text-white alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert" style={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', borderLeft: '4px solid #10b981' }}>
+                    <span className="fw-medium">✨ {mensaje}</span>
+                    <button type="button" className="btn-close btn-close-white" onClick={() => setMensaje('')}></button>
                 </div>
             )}
             {error && (
-                <div className="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm" role="alert">
-                    ⚠️ {error}
-                    <button type="button" className="btn-close" onClick={() => setError('')}></button>
+                <div className="alert border-0 text-white alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', borderLeft: '4px solid #ef4444' }}>
+                    <span className="fw-medium">⚡ {error}</span>
+                    <button type="button" className="btn-close btn-close-white" onClick={() => setError('')}></button>
                 </div>
             )}
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h3 className="fw-bold mb-0" style={{ color: '#1b4332' }}>📦 Productos</h3>
-                    <small className="text-muted">{productos.length} productos registrados</small>
+            <div className="row align-items-center mb-5 g-3">
+                <div className="col-sm-6">
+                    <h3 className="fw-extrabold mb-1" style={{ letterSpacing: '-0.5px', fontSize: '1.75rem' }}>
+                        📦 Catálogo de Productos
+                    </h3>
+                    <p className="text-muted mb-0 small">
+                        Visualizando <span className="text-indigo-400 fw-bold" style={{ color: '#818cf8' }}>{productos.length} items</span> en tiempo real
+                    </p>
                 </div>
-                <button
-                    className="btn fw-semibold text-white shadow-sm px-4"
-                    style={{ backgroundColor: '#1b4332', borderRadius: '10px' }}
-                    onClick={() => { setProductoForm(productoVacio); setEditando(false); setShowModal(true); }}
-                >
-                    ➕ Nuevo Producto
-                </button>
+                <div className="col-sm-6 text-sm-end">
+                    <button
+                        className="btn fw-bold px-4 py-2.5 shadow-lg text-white"
+                        style={{
+                            background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)',
+                            borderRadius: '12px',
+                            border: 'none',
+                            fontSize: '0.9rem'
+                        }}
+                        onClick={() => { setProductoForm(productoVacio); setEditando(false); setShowModal(true); }}
+                    >
+                        + Registrar Producto
+                    </button>
+                </div>
             </div>
 
-            <div className="card border-0 shadow-sm mb-4" style={{ borderRadius: '12px' }}>
-                <div className="card-body py-3">
-                    <input
-                        type="text"
-                        className="form-control border-0 bg-light rounded-3"
-                        placeholder="🔍 Buscar producto por nombre..."
-                        value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                    />
+            <div className="card border-0 mb-4" style={{ borderRadius: '16px', backgroundColor: '#1e293b', border: '1px solid #334155' }}>
+                <div className="card-body p-3">
+                    <div className="input-group">
+                        <span className="input-group-text border-0 bg-transparent text-muted px-3">🔍</span>
+                        <input
+                            type="text"
+                            className="form-control border-0 text-white"
+                            style={{ backgroundColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                            placeholder="Buscar en el inventario por palabra clave..."
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="card border-0 shadow-sm" style={{ borderRadius: '12px', overflow: 'hidden' }}>
+            <div className="card border-0 shadow-xl" style={{ borderRadius: '16px', backgroundColor: '#1e293b', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <div className="table-responsive">
-                    <table className="table table-hover mb-0">
-                        <thead style={{ backgroundColor: '#1b4332', color: 'white' }}>
-                            <tr>
-                                <th className="py-3 px-4">#</th>
-                                <th className="py-3">Nombre</th>
-                                <th className="py-3">Categoría</th>
-                                <th className="py-3">Precio</th>
-                                <th className="py-3">Stock</th>
-                                <th className="py-3">Estado</th>
-                                <th className="py-3">Acciones</th>
+                    <table className="table table-dark table-hover mb-0 align-middle">
+                        <thead>
+                            <tr style={{ backgroundColor: '#0f172a', color: '#94a3b8', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                <th className="py-3.5 px-4 text-center" style={{ width: '80px' }}>ID</th>
+                                <th className="py-3.5">Detalle Producto</th>
+                                <th className="py-3.5">Categoría</th>
+                                <th className="py-3.5 text-end">Valor Unitario</th>
+                                <th className="py-3.5 text-center">Stock</th>
+                                <th className="py-3.5 text-center">Estado</th>
+                                <th className="py-3.5 text-center" style={{ width: '200px' }}>Gestión</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {productosFiltrados.map((producto, index) => (
-                                <tr key={producto.idproducto} style={{ backgroundColor: index % 2 === 0 ? 'white' : '#f8faf9' }}>
-                                    <td className="py-3 px-4 text-muted">{producto.idproducto}</td>
-                                    <td className="py-3 fw-semibold">{producto.nombreproducto}</td>
+                        <tbody style={{ borderTop: 'none' }}>
+                            {productosFiltrados.map((producto) => (
+                                <tr key={producto.idproducto} style={{ borderBottom: '1px solid #334155' }}>
+                                    <td className="py-3 px-4 text-center text-muted fw-bold">{producto.idproducto}</td>
+                                    <td className="py-3 fw-semibold text-white">{producto.nombreproducto}</td>
                                     <td className="py-3">
-                                        <span className="badge rounded-pill px-3 py-2"
-                                            style={{ backgroundColor: '#d8f3dc', color: '#1b4332' }}>
-                                            {producto.objCategoria?.nombrecategoria}
+                                        <span className="badge px-2.5 py-1.5 fw-medium"
+                                            style={{ backgroundColor: 'rgba(99, 102, 241, 0.15)', color: '#818cf8', borderRadius: '8px' }}>
+                                            {producto.objCategoria?.nombrecategoria || 'General'}
                                         </span>
                                     </td>
-                                    <td className="py-3 fw-semibold" style={{ color: '#1b4332' }}>
+                                    <td className="py-3 text-end fw-bold" style={{ color: '#34d399' }}>
                                         ${producto.precioproducto?.toLocaleString()}
                                     </td>
-                                    <td className="py-3">{producto.stockproducto}</td>
-                                    <td className="py-3">
-                                        <span className={`badge rounded-pill px-3 py-2 ${producto.estadoproducto ? 'bg-success' : 'bg-danger'}`}>
-                                            {producto.estadoproducto ? '✅ Activo' : '❌ Inactivo'}
+                                    <td className="py-3 text-center">
+                                        <span className={`fw-bold ${producto.stockproducto < 5 ? 'text-warning' : 'text-slate-300'}`}>
+                                            {producto.stockproducto}
                                         </span>
                                     </td>
-                                    <td className="py-3">
+                                    <td className="py-3 text-center">
+                                        <span className={`badge rounded-pill px-3 py-1.5 ${producto.estadoproducto ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}`}
+                                            style={{ backgroundColor: producto.estadoproducto ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)', color: producto.estadoproducto ? '#34d399' : '#f87171' }}>
+                                            {producto.estadoproducto ? '● Activo' : '○ Inactivo'}
+                                        </span>
+                                    </td>
+                                    <td className="py-3 text-center">
                                         <button
-                                            className="btn btn-sm me-2 fw-semibold"
-                                            style={{ backgroundColor: '#e8f4f8', color: '#0077b6', borderRadius: '8px', border: 'none' }}
+                                            className="btn btn-sm me-2 fw-bold"
+                                            style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#60a5fa', borderRadius: '8px', border: 'none', padding: '6px 12px' }}
                                             onClick={() => handleEditar(producto)}
                                         >
-                                            ✏️ Editar
+                                            Editar
                                         </button>
                                         <button
-                                            className="btn btn-sm fw-semibold"
-                                            style={{ backgroundColor: '#fde8e8', color: '#e63946', borderRadius: '8px', border: 'none' }}
+                                            className="btn btn-sm fw-bold"
+                                            style={{ backgroundColor: 'rgba(239,68,68,0.1)', color: '#f87171', borderRadius: '8px', border: 'none', padding: '6px 12px' }}
                                             onClick={() => handleEliminar(producto.idproducto)}
                                         >
-                                            🗑️ Eliminar
+                                            Eliminar
                                         </button>
                                     </td>
                                 </tr>
@@ -193,89 +214,93 @@ function Productos() {
             </div>
 
             {productosFiltrados.length === 0 && !error && (
-                <div className="text-center text-muted mt-5">
-                    <div style={{ fontSize: '50px' }}>📭</div>
-                    <h5>No se encontraron productos</h5>
+                <div className="text-center text-muted mt-5 py-5" style={{ backgroundColor: '#1e293b', borderRadius: '16px', border: '1px dashed #334155' }}>
+                    <div style={{ fontSize: '40px' }} className="mb-2">📋</div>
+                    <h5 className="text-white mb-1">No hay coincidencias</h5>
+                    <p className="small text-muted mb-0">Prueba ajustando los criterios de búsqueda</p>
                 </div>
             )}
 
             {showModal && (
-                <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                <div className="modal show d-block" style={{ backgroundColor: 'rgba(10,15,30,0.85)', backdropFilter: 'blur(8px)' }}>
                     <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '16px' }}>
-                            <div className="modal-header border-0 px-4 pt-4" style={{ backgroundColor: '#1b4332', borderRadius: '16px 16px 0 0' }}>
-                                <h5 className="modal-title text-white fw-bold">
-                                    {editando ? '✏️ Editar Producto' : '➕ Nuevo Producto'}
+                        <div className="modal-content border-0 shadow-2xl text-white" style={{ borderRadius: '20px', backgroundColor: '#1e293b', border: '1px solid #475569' }}>
+                            <div className="modal-header border-0 px-4 pt-4 pb-2">
+                                <h5 className="modal-title fw-extrabold" style={{ fontSize: '1.25rem' }}>
+                                    {editando ? '⚡ Modificar Registro' : '✨ Crear Nuevo Registro'}
                                 </h5>
                                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
                             </div>
                             <div className="modal-body p-4">
                                 <div className="mb-3">
-                                    <label className="form-label fw-semibold text-muted small">Nombre del producto</label>
+                                    <label className="form-label fw-medium small" style={{ color: '#94a3b8' }}>Nombre descriptivo</label>
                                     <input
                                         type="text"
-                                        className="form-control rounded-3"
-                                        placeholder="Nombre del producto"
+                                        className="form-control text-white"
+                                        style={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '10px' }}
+                                        placeholder="Ej. Laptop Core i7"
                                         value={productoForm.nombreproducto}
                                         onChange={(e) => setProductoForm({ ...productoForm, nombreproducto: e.target.value })}
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label className="form-label fw-semibold text-muted small">Categoría</label>
+                                    <label className="form-label fw-medium small" style={{ color: '#94a3b8' }}>Agrupación / Categoría</label>
                                     <select
-                                        className="form-select rounded-3"
+                                        className="form-select text-white"
+                                        style={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '10px' }}
                                         value={productoForm.idcategoria}
                                         onChange={(e) => setProductoForm({ ...productoForm, idcategoria: parseInt(e.target.value) })}
                                     >
                                         {categorias.map(c => (
-                                            <option key={c.idcategoria} value={c.idcategoria}>{c.nombrecategoria}</option>
+                                            <option key={c.idcategoria} value={c.idcategoria} style={{ backgroundColor: '#0f172a' }}>{c.nombrecategoria}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div className="row">
                                     <div className="col-6 mb-3">
-                                        <label className="form-label fw-semibold text-muted small">Precio</label>
+                                        <label className="form-label fw-medium small" style={{ color: '#94a3b8' }}>Precio Base</label>
                                         <input
                                             type="number"
-                                            className="form-control rounded-3"
-                                            placeholder="0"
+                                            className="form-control text-white"
+                                            style={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '10px' }}
                                             value={productoForm.precioproducto}
                                             onChange={(e) => setProductoForm({ ...productoForm, precioproducto: parseFloat(e.target.value) || 0 })}
                                         />
                                     </div>
                                     <div className="col-6 mb-3">
-                                        <label className="form-label fw-semibold text-muted small">Stock</label>
+                                        <label className="form-label fw-medium small" style={{ color: '#94a3b8' }}>Unidades Disponibles</label>
                                         <input
                                             type="number"
-                                            className="form-control rounded-3"
-                                            placeholder="0"
+                                            className="form-control text-white"
+                                            style={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '10px' }}
                                             value={productoForm.stockproducto}
                                             onChange={(e) => setProductoForm({ ...productoForm, stockproducto: parseInt(e.target.value) || 0 })}
                                         />
                                     </div>
                                 </div>
-                                <div className="mb-3">
-                                    <label className="form-label fw-semibold text-muted small">Estado</label>
+                                <div className="mb-2">
+                                    <label className="form-label fw-medium small" style={{ color: '#94a3b8' }}>Disponibilidad Operativa</label>
                                     <select
-                                        className="form-select rounded-3"
+                                        className="form-select text-white"
+                                        style={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '10px' }}
                                         value={productoForm.estadoproducto.toString()}
                                         onChange={(e) => setProductoForm({ ...productoForm, estadoproducto: e.target.value === 'true' })}
                                     >
-                                        <option value="true">✅ Activo</option>
-                                        <option value="false">❌ Inactivo</option>
+                                        <option value="true" style={{ backgroundColor: '#0f172a' }}>Habilitado</option>
+                                        <option value="false" style={{ backgroundColor: '#0f172a' }}>Inhabilitado</option>
                                     </select>
                                 </div>
                             </div>
                             <div className="modal-footer border-0 px-4 pb-4">
-                                <button className="btn btn-light rounded-3 px-4" onClick={() => setShowModal(false)}>
-                                    Cancelar
+                                <button className="btn fw-semibold text-white btn-sm px-3 py-2" style={{ backgroundColor: '#334155', borderRadius: '10px' }} onClick={() => setShowModal(false)}>
+                                    Cerrar
                                 </button>
                                 <button
-                                    className="btn text-white rounded-3 px-4 fw-semibold"
-                                    style={{ backgroundColor: '#1b4332' }}
+                                    className="btn text-white fw-bold btn-sm px-4 py-2"
+                                    style={{ backgroundColor: '#6366f1', borderRadius: '10px' }}
                                     onClick={handleGuardar}
                                 >
-                                    {editando ? '💾 Guardar Cambios' : '✅ Guardar'}
+                                    {editando ? 'Actualizar Datos' : 'Confirmar Guardado'}
                                 </button>
                             </div>
                         </div>
