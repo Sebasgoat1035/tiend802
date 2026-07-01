@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://proyectapi802.somee.com';
+const API_URL = "https://proyectapi802.somee.com";
 
 const api = axios.create({
     baseURL: API_URL,
